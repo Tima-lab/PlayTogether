@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/app_bar_main">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/cardview_light_background"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="@string/host_merop"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/host_merop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/count_member_merop"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/count_member_join_merop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="35sp"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/btn_join_merop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/join_merop"
+                android:textColor="@color/cardview_light_background"
+                android:background="@color/fui_bgPhone"
+                android:layout_margin="10dp"/>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

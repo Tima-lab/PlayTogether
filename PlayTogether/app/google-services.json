@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "416909949236",
+    "firebase_url": "https://playtogether-7a863.firebaseio.com",
+    "project_id": "playtogether-7a863",
+    "storage_bucket": "playtogether-7a863.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416909949236:android:f8acfb3ffa61eecf",
+        "android_client_info": {
+          "package_name": "com.example.playtogether"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416909949236-j60jlvnh1651dnskjng04dfairec7kum.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.playtogether",
+            "certificate_hash": "7250043cf29a10fc7d3300313893bc1bbb864ad7"
+          }
+        },
+        {
+          "client_id": "416909949236-78ejceeauvjtdssr6j73q97ej42svf96.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2l3PwUH2PSIZS0cba4Tpup4wMvv9ZQbM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416909949236-78ejceeauvjtdssr6j73q97ej42svf96.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

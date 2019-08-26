@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/app_bar_main">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:padding="30dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_weight="4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/create_merop"
+                android:textAlignment="center"
+                android:textSize="27sp"/>
+
+            <EditText
+                android:layout_weight="1"
+                android:id="@+id/name_merop"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/name_mer"
+                android:padding="10dp"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="@color/input_login"
+                android:textColorHint="@color/input_login_hint"
+                android:autofillHints="" />
+
+            <Spinner
+                android:layout_weight="1"
+                android:id="@+id/type_merop"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
+                android:spinnerMode="dialog"
+                android:entries="@array/vid_sport">
+            </Spinner>
+
+            <EditText
+                android:layout_weight="1"
+                android:id="@+id/info_merop"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/info_merop"
+                android:padding="10dp"
+                android:inputType="textMultiLine"
+                android:lines="1"
+                android:textColor="@color/input_login"
+                android:textColorHint="@color/input_login_hint"
+                android:autofillHints="" />
+
+            <EditText
+                android:layout_weight="1"
+                android:id="@+id/date_merop"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/date_merop"
+                android:padding="10dp"
+                android:inputType="date"
+                android:singleLine="true"
+                android:textColor="@color/input_login"
+                android:textColorHint="@color/input_login_hint"
+                android:autofillHints="" />
+
+            <EditText
+                android:layout_weight="1"
+                android:id="@+id/time_merop"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/time_merop"
+                android:padding="10dp"
+                android:inputType="time"
+                android:singleLine="true"
+                android:textColor="@color/input_login"
+                android:textColorHint="@color/input_login_hint"
+                android:autofillHints="" />
+
+            <EditText
+                android:layout_weight="1"
+                android:id="@+id/duration"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/duration"
+                android:padding="10dp"
+                android:inputType="number"
+                android:maxLength="3"
+                android:singleLine="true"
+                android:textColor="@color/input_login"
+                android:textColorHint="@color/input_login_hint"
+                android:autofillHints="" />
+
+            <Button
+                android:layout_weight="1"
+                android:id="@+id/btnCreateMerop"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:text="@string/btn_create_merop" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

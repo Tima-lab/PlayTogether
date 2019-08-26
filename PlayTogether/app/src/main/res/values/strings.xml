@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">PlayTogether</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">User</string>
+    <string name="nav_header_subtitle">your_email@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+    <string name="sign_out">Выход</string>
+    <string name="sign_in">Вход</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="btn_login">Авторизация</string>
+    <string name="btn_register">Регистрация</string>
+    <string name="another_autorization">Другие способы авторизации:</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Пароль</string>
+    <string name="loading">Загрузка</string>
+    <string name="logout">Выйти</string>
+    <string name="verify_email">Чтобы пользоваться функциями приложения вы должны подтвердить свой email</string>
+    <string name="create_merop">Создание мероприятия</string>
+    <string name="name_mer">Название мероприятия</string>
+    <string name="info_merop">Описание</string>
+    <string name="date_merop">Дата начала</string>
+    <string name="time_merop">Время начала</string>
+    <string name="duration">Длительность(в мин)</string>
+    <string name="btn_create_merop">Создать</string>
+    <string name="host_merop">Создатель мероприятия</string>
+    <string name="join_merop">Присоединиться</string>
+    <string name="count_member_merop">Количество участников:</string>
+
+    <string-array name="vid_sport">
+        <item>Баскетбол</item>
+        <item>Футбол</item>
+        <item>Волейбол</item>
+        <item>Теннис</item>
+    </string-array>
+</resources>
