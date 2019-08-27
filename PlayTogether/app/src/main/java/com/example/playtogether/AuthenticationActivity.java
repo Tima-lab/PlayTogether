@@ -6,29 +6,19 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.example.playtogether.MainActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import es.dmoral.toasty.Toasty;
 
 public class AuthenticationActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -43,6 +33,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.authentication);
+
 
         email_ed = findViewById(R.id.email);
         password_ed = findViewById(R.id.password);
@@ -63,8 +54,8 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         FirebaseUser user = mAuth.getCurrentUser();
 
         if (user != null) {
-            Toast.makeText(AuthenticationActivity.this, "Добро пожаловать " +
-                    user.getEmail(), Toast.LENGTH_SHORT).show();
+            Toasty.success(getApplicationContext(), "Добро пожаловать " +
+                    user.getEmail(), Toast.LENGTH_SHORT, false).show();
 
             Intent intent = new Intent(AuthenticationActivity.this, MainActivity.class);
             startActivity(intent);
@@ -78,19 +69,19 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
             return;
         }
 
-        showProgressDialog();
+        if (password_ed.length() >= 6) {
 
-        // [START create_user_with_email]
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+            showProgressDialog();
+
+            // [START create_user_with_email]
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             user = mAuth.getCurrentUser();
                             create_user();
 
-                            Toast.makeText(AuthenticationActivity.this, "Аккаунт " +
+                            Toasty.success(getApplicationContext(), "Аккаунт " +
                                     email + " создан", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(AuthenticationActivity.this, MainActivity.class);
@@ -98,8 +89,8 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(AuthenticationActivity.this, "Ошибка регистрации",
-                                    Toast.LENGTH_SHORT).show();
+                            Toasty.error(getApplicationContext(), "Ошибка регистрации, данный email уже существует или пароль не соответствует требованиям (должен содержать строчные буквы и цифры)",
+                                    Toast.LENGTH_LONG).show();
 
                         }
 
@@ -107,8 +98,10 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                         hideProgressDialog();
 
                         // [END_EXCLUDE]
-                    }
-                });
+                    });
+        } else
+            Toasty.info(getApplicationContext(), "Пароль должен содержать больше 6 символов",
+                    Toast.LENGTH_SHORT).show();
         // [END create_user_with_email]
     }
 
@@ -123,33 +116,30 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
         // [START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            user = mAuth.getCurrentUser();
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        user = mAuth.getCurrentUser();
 
-                            Toast.makeText(AuthenticationActivity.this, "Добро пожаловать " +
-                                    email, Toast.LENGTH_SHORT).show();
+                        Toasty.success(getApplicationContext(), "Добро пожаловать " +
+                                email, Toast.LENGTH_SHORT, false).show();
 
-                            Intent intent = new Intent(AuthenticationActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(AuthenticationActivity.this, "Логин или пароль введены не верно.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
-                        // [START_EXCLUDE]
-                        if (!task.isSuccessful()) {
-                            //mStatusTextView.setText(R.string.auth_failed);
-                        }
-                        hideProgressDialog();
-                        // [END_EXCLUDE]
+                        Intent intent = new Intent(AuthenticationActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "signInWithEmail:failure", task.getException());
+                        Toasty.error(getApplicationContext(), "Логин или пароль введены не верно.",
+                                Toast.LENGTH_SHORT).show();
                     }
+
+                    // [START_EXCLUDE]
+                    if (!task.isSuccessful()) {
+                        //mStatusTextView.setText(R.string.auth_failed);
+                    }
+                    hideProgressDialog();
+                    // [END_EXCLUDE]
                 });
         // [END sign_in_with_email]
     }
@@ -213,15 +203,9 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
         db.collection("User").document(uid)
                 .set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                    }
+                .addOnSuccessListener(aVoid -> {
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
+                .addOnFailureListener(e -> {
                 });
 
     }

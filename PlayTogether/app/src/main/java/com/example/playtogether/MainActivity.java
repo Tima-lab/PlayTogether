@@ -1,16 +1,33 @@
 package com.example.playtogether;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -18,66 +35,25 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-
-import android.view.MenuItem;
-
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.Timestamp;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.MetadataChanges;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
-import com.google.firebase.firestore.Source;
 
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.Menu;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.lang.reflect.Member;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import es.dmoral.toasty.Toasty;
 
 
 public class MainActivity extends AppCompatActivity
@@ -216,7 +192,11 @@ public class MainActivity extends AppCompatActivity
         } else {
             fab_create_merop.setEnabled(false);
             fab_info_merop.setEnabled(false);
-
+            Toast message_warning = Toasty.warning(getApplicationContext(),
+                    "Чтоды пользоваться функциями приложения, подтвердите свою почту. Нажав на значок с письмом, вы отправите сообщение с подтверждением на свой почтовый ящик",
+                    Toast.LENGTH_LONG);
+            message_warning.setGravity(Gravity.TOP, 0, 150);
+            message_warning.show();
         }
     }
 
@@ -230,7 +210,7 @@ public class MainActivity extends AppCompatActivity
 
                     if (!task.isSuccessful()) {
                         btn_verify = false;
-                        Toast.makeText(MainActivity.this,
+                        Toasty.error(getApplicationContext(),
                                 "Ошибка отправки письма",
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -324,12 +304,11 @@ public class MainActivity extends AppCompatActivity
         colRef.addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
                 Log.w(TAG, "Listen failed.", e);
-                Toast.makeText(MainActivity.this,"Ошибка",Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (queryDocumentSnapshots != null) {
-                Log.d(TAG, "Current data: " + queryDocumentSnapshots.getDocuments());
+                //Log.d(TAG, "Current data: " + queryDocumentSnapshots.getDocuments());
                 List<DocumentChange> m = queryDocumentSnapshots.getDocumentChanges();
                 for (DocumentSnapshot document: queryDocumentSnapshots.getDocuments()){
                     String uid;
@@ -363,11 +342,10 @@ public class MainActivity extends AppCompatActivity
                 for (int i = 0; i < m.size(); i++) {
                     DocumentChange.Type s = m.get(i).getType();
                 }
-                Toast.makeText(MainActivity.this,"Данные обновлены",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(MainActivity.this,"Данные обновлены",Toast.LENGTH_SHORT).show();
 
             } else {
                 Log.d(TAG, "Current data: null");
-                Toast.makeText(MainActivity.this,"Нет изменений",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -427,7 +405,7 @@ public class MainActivity extends AppCompatActivity
 
 
     public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(this, "Текущее местоположение:\n" + location, Toast.LENGTH_LONG).show();
+        Toasty.info(getApplicationContext(), "Текущее местоположение:\n" + location, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -481,9 +459,9 @@ public class MainActivity extends AppCompatActivity
             userLocation = new LatLng(0,0);
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
 
-                Toast.makeText(this,
+                Toasty.warning(getApplicationContext(),
                         "Извините, но без разрешения на ваш location, приложение не определит ваше текущее местоположение",
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_LONG).show();
 
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_FINE_LOCATION);
             } else {
@@ -508,9 +486,9 @@ public class MainActivity extends AppCompatActivity
             case MY_PERMISSIONS_REQUEST_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this,
+                    Toasty.warning(getApplicationContext(),
                             "Чтобы изменения применились, нужно перезапустить приложение!",
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -568,7 +546,7 @@ public class MainActivity extends AppCompatActivity
                 .addOnSuccessListener(documentReference -> {
                     Log.d(TAG,"Добавлен с ID: " + documentReference.getId());
                     String id_merop = documentReference.getId();
-                    Toast.makeText(MainActivity.this, "Саксесфул!", Toast.LENGTH_SHORT).show();
+                    Toasty.success(getApplicationContext(), "Саксесфул!", Toast.LENGTH_SHORT).show();
 
                     Map<String, Object> Member = new HashMap<>();
                     Member.put("email0", user.getEmail());
@@ -583,7 +561,7 @@ public class MainActivity extends AppCompatActivity
                 })
                 .addOnFailureListener(e -> {
                     Log.w(TAG,"Error добавления документа: ", e);
-                    Toast.makeText(MainActivity.this, "Невозможно создать мероприятие!", Toast.LENGTH_SHORT).show();
+                    Toasty.error(getApplicationContext(), "Невозможно создать мероприятие!", Toast.LENGTH_SHORT).show();
                 });
 
 
@@ -667,7 +645,7 @@ public class MainActivity extends AppCompatActivity
                 .set(Member, SetOptions.merge())
                 .addOnSuccessListener(aVoid -> {
                     findViewById(R.id.info_window_merop).setVisibility(View.GONE);
-                    Toast.makeText(MainActivity.this,"Вы успешно присоединились к мероприятию",Toast.LENGTH_SHORT).show();
+                    Toasty.success(getApplicationContext(),"Вы успешно присоединились к мероприятию",Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
     }
