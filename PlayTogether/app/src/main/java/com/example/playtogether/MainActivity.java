@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity
             if (btn_verify) {
                 Snackbar.make(view, "На почту " + user.getEmail() + " отправлено письмо с подтверждением", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                Toasty.info(getApplicationContext(),"После подтверждения почты, перезайдите в свой аккаунт", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -201,12 +202,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void send_email_verify() {
-        fab_verify_email.setEnabled(false);
 
         user.sendEmailVerification()
                 .addOnCompleteListener(this, task -> {
                     // Re-enable button
-                    fab_verify_email.setEnabled(true);
 
                     if (!task.isSuccessful()) {
                         btn_verify = false;
@@ -278,10 +277,11 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
         My_Location();
 
+
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 17.0f));
+        mMap.isMyLocationEnabled();
         mMap.setMinZoomPreference(4.0f);
         mMap.setMaxZoomPreference(20.0f);
 
